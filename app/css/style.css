@@ -1,0 +1,65 @@
+/**, *:after, *:before {*/
+   /*-webkit-box-sizing: border-box;*/
+   /*-moz-box-sizing: border-box;*/
+   /*box-sizing: border-box;*/
+/*}*/
+
+html {
+   overflow: hidden;
+}
+
+body {
+   background: #aaa;
+   color: #333;
+   -webkit-touch-callout: none;
+   -webkit-user-select: none;
+   -khtml-user-select: none;
+   -moz-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+}
+
+table {
+   background: #fff;
+}
+
+thead {
+   background: #eee;
+}
+
+#song-upload {
+   width: 100px;
+}
+
+.table thead th {
+   vertical-align: top;
+}
+
+.navbar .brand {
+   padding-left: 37px;
+}
+.navbar .navbar-right {
+   padding-right: 5px;
+}
+.time-column {
+   width: 50px;
+}
+.rating-column {
+   width: 70px;
+}
+.play-column {
+   width: 28px;
+}
+
+#controls {
+   height: 38px;
+}
+#main {
+   overflow-y: auto;
+   position: absolute;
+   padding: 10px;
+   top: 41px; 
+   bottom: 38px; 
+   left: 0px; 
+   right: 0px; 
+}

@@ -1,0 +1,44 @@
+<div ng-show="songs.length">
+   <form class="row-fluid form-search">
+      <input type="text" class="span12 search-query text-right" 
+      placeholder="Filter songs..." ng-model="query">
+      </input>
+   </form>
+
+   <table class="table table-bordered table-hover">
+      <thead>
+         <tr>
+            <th>Name</th>
+            <th>Artist</th>
+            <th>Album</th>
+            <th>Time</th>
+            <th>Rating</th>
+            <th></th>
+         </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="song in songs | filter:query">
+         <td><a href="#/song/{{song.name}}">{{song.name}}</a></td>
+         <td><a href="#/artist/{{song.artist}}">{{song.artist}}</a></td>
+         <td><a href="#/album/{{song.album}}">{{song.album}}</a></td>
+         <td class="time-column">{{song.time}}</td>
+         <td class="rating-column">{{song.stars}}</td>
+         <td class="play-column">
+            <button class="btn btn-mini">
+               <i class="icon-chevron-down"></i>
+            </button>
+         </td>
+      </tr>
+      </tbody>
+   </table>
+</div>
+
+<center>
+<div class="text-center alert alert-info" ng-hide="songs.length">
+   <strong>Click</strong> or <strong>Drag</strong> songs here to listen! 
+   
+   <div>
+      <file-upload ng-model="files" ng-change="uploadSongs()"></file-upload>
+   </div>
+</div>
+</center>

@@ -1,0 +1,2 @@
+describe('my app', function() {
+});

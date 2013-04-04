@@ -1,0 +1,9 @@
+{
+   "name":"sound-city",
+   "version":"0.0.1",
+   "author":"Dave Lu <dave792321001730003212345@gmail.com>",
+   "dependencies":{
+      "express":"*"
+   }
+}
+
