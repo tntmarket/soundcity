@@ -19,3 +19,25 @@ Depends On
    - twitter bootstrap
    - jplayer 
       - snappy light skin
+
+How to Run
+----------
+in root directory:
+    
+    ./scripts/webserver.js
+
+Then navigate to http://localhost:8000/app/index.html
+
+How to Test 
+-----------
+
+###Unit tests:
+in root directory:
+
+    cd soundcity
+    ./scripts/test.sh
+
+###End to end tests:
+in root directory:
+
+    ./scripts/e2e-test.sh
