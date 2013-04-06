@@ -1,24 +1,32 @@
 Sound City
 ==========
 
-A html5 music player
+A web music player. Currently only supporting chrome.
 
 Requirements
 ------------
 
-- play music from local filesystem without upload
-- save local songs to server
-- cache server songs on local filesystem
-- remember music from local filesystem without uploading every session
+- play music from local filesystem without uploading to server
+- save metadata of local music to avoid uploading every session
+   - cookies, localStorage, or filesystem API?
+- sync local songs to server
+- sync server songs to local filesystem
 
 Depends On
 ----------
 
+### Libraries
 - angularjs
 - jquery
    - twitter bootstrap
    - jplayer 
       - snappy light skin
+- jdataview
+
+### Browser features
+- directory upload
+- createFileURL
+- html5 audio or flash
 
 How to Run
 ----------
