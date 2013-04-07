@@ -1,4 +1,6 @@
 function MainCtrl($rootScope, $scope) {
+   $rootScope.SONGS = [];
+
    $rootScope.SETSONG = function(song) {
       if(!song.file) {
          throw 'SETSONG assumes a valid song param';
@@ -49,7 +51,7 @@ function MainCtrl($rootScope, $scope) {
    };
 }
 
-function PlayingCtrl($rootScope, $scope, $filter) {
+function AddSongsCtrl($rootScope, $scope, $filter, $location) {
    $scope.fileExtension = function(filename) {
       if( filename.indexOf('.') > -1 ) {
          return filename.split('.').pop();
@@ -63,7 +65,6 @@ function PlayingCtrl($rootScope, $scope, $filter) {
       return (size > 4095) && ($scope.fileExtension(file.name) === 'mp3');
    };
 
-   $scope.songs = [];
 
    $scope.handleFileUpload = function(files) {
       var mp3s = $filter('filter')(files, $scope.isMp3);
@@ -72,10 +73,11 @@ function PlayingCtrl($rootScope, $scope, $filter) {
       $scope.loadedSongs = 0;
       metadataProcessor.onmessage = function(msgEvent) {
          $scope.$apply(function() {
-            $scope.songs = $scope.songs.concat(msgEvent.data.metadata);
+            $rootScope.SONGS = $rootScope.SONGS.concat(msgEvent.data.metadata);
             if(msgEvent.data.finished) {
                metadataProcessor.terminate();
                $scope.resetBar();
+               $location.path('/playing');
             } else {
                $scope.loadedSongs = msgEvent.data.loaded;
                $scope.loadBarStyle.width = $scope.loadProgress() + '%';
@@ -86,18 +88,27 @@ function PlayingCtrl($rootScope, $scope, $filter) {
    };
 
    $scope.resetBar = function() {
-      $scope.loadBarMsg = '';
       $scope.loadBarStyle = {
          width: '0%'
       },
       $scope.loadedSongs = -1;
       $scope.totalSongs = -1;
    };
-   $scope.resetBar();
+
+   $scope.busy = function() {
+      return $scope.loadedSongs < $scope.totalSongs;
+   };
+
+   if(!$scope.loadedSongs) {
+      $scope.resetBar();
+   }
+
    $scope.loadProgress = function() {
       return (100 * $scope.loadedSongs / $scope.totalSongs); 
    };
+}
 
+function PlayingCtrl($rootScope, $scope, $location) {
    $scope.playSong = function(song) {
       $rootScope.SETSONG(song);
       $rootScope.PLAY();
@@ -107,10 +118,6 @@ function PlayingCtrl($rootScope, $scope, $filter) {
 var reader = new FileReader();
 function readFile(file) {
    reader.readAsArrayBuffer(file);
-}
-
-function SongRowCtrl($scope) {
-   $scope.song = $routeParams.id;
 }
 
 function SongCtrl($scope, $routeParams) {

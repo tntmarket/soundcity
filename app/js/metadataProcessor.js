@@ -11,7 +11,7 @@ self.addEventListener('message', function(msgEvent) {
       var last128Bytes = reader.readAsArrayBuffer(file.slice(-128));
       var mp3Data = new jDataView(last128Bytes);
 
-      if (mp3Data.getString(3) == 'TAG') {
+      if (mp3Data.getString(3) === 'TAG') {
          metadataBatch.push({
             name: mp3Data.getString(30, mp3Data.tell()),
             artist: mp3Data.getString(30, mp3Data.tell()),

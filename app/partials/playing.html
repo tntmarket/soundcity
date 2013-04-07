@@ -1,16 +1,4 @@
-<div class="progress progress-striped active"
-ng-show="loadedSongs < totalSongs && totalSongs > 100">
-   <div class="bar" ng-style="loadBarStyle">
-      <span ng-show="loadProgress() > 20">
-         {{loadedSongs}} of {{totalSongs}}
-      </span>
-   </div>
-   <div ng-show="loadProgress() <= 20">
-      {{loadedSongs}} of {{totalSongs}}
-   </div>
-</div>
-
-<div ng-show="songs.length">
+<div ng-show="SONGS.length">
    <form class="row-fluid form-search">
       <input type="text" class="span12 search-query text-right" 
       placeholder="Filter songs..." ng-model="query">
@@ -29,14 +17,14 @@ ng-show="loadedSongs < totalSongs && totalSongs > 100">
          </tr>
       </thead>
       <tbody>
-      <tr ng-repeat="song in songs | filter:query" ng-dblclick="playSong(song)">
+      <tr ng-repeat="song in SONGS | filter:query" ng-dblclick="playSong(song)">
          <td><a href="#/song/{{song.name}}">{{song.name}}</a></td>
          <td><a href="#/artist/{{song.artist}}">{{song.artist}}</a></td>
          <td><a href="#/album/{{song.album}}">{{song.album}}</a></td>
          <td class="time-column">{{song.time}}</td>
          <td class="rating-column">{{song.stars}}</td>
          <td class="play-column">
-            <button class="btn btn-mini" ng-click="playSong(song)">
+            <button class="btn btn-mini">
                <i class="icon-chevron-down"></i>
             </button>
          </td>
@@ -44,17 +32,3 @@ ng-show="loadedSongs < totalSongs && totalSongs > 100">
       </tbody>
    </table>
 </div>
-
-<center ng-hide="songs.length">
-   <div class="text-center alert alert-info">
-      <strong>Click</strong> or <strong>Drag</strong> songs here to listen! 
-
-      <div>
-         <file-upload change="handleFileUpload"></file-upload>
-      </div>
-
-      <div ng-repeat="meta in metadata">
-         {{meta.title}} - {{meta.artist}} | {{meta.album}}
-      </div>
-   </div>
-</center>

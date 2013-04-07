@@ -27,6 +27,10 @@
       config(['$routeProvider', function($routeProvider) {
 
       $routeProvider.
+         when('/addsongs', {
+         templateUrl: 'partials/addsongs.html',
+         controller: AddSongsCtrl
+      }).
          when('/playing', {
          templateUrl: 'partials/playing.html',
          controller: PlayingCtrl
@@ -47,6 +51,6 @@
          templateUrl: 'partials/album.html',
          controller: AlbumCtrl 
       }).
-         otherwise({ redirectTo: '/playing' });
+         otherwise({ redirectTo: '/addsongs' });
    }]);
 })();

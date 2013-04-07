@@ -3,9 +3,12 @@
       <li><a href="#/addsongs">
          <i class="icon-plus"></i>
       </a></li>
-      <li class="active"><a href="#/playing">
+      <li    ><a href="#/playing">
          <i class="icon-play"></i>
          Playlist of Doom 
+         <span ng-show="SONGS.length">
+            ({{SONGS.length}})
+         </span>
       </a></li>
       <li><a href="#/mymusic">
          <i class="icon-music"></i>

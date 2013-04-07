@@ -1,0 +1,25 @@
+<div class="progress progress-striped active"
+ng-show="busy() && totalSongs > 100">
+   <div class="bar" ng-style="loadBarStyle">
+      <span ng-show="loadProgress() > 20">
+         {{loadedSongs}} of {{totalSongs}}
+      </span>
+   </div>
+   <div ng-show="loadProgress() <= 20">
+      {{loadedSongs}} of {{totalSongs}}
+   </div>
+</div>
+
+<center ng-hide="busy()">
+   <div class="text-center alert alert-info">
+      <strong>Click</strong> or <strong>Drag</strong> songs here to listen! 
+
+      <div>
+         <file-upload change="handleFileUpload"></file-upload>
+      </div>
+
+      <div ng-repeat="meta in metadata">
+         {{meta.title}} - {{meta.artist}} | {{meta.album}}
+      </div>
+   </div>
+</center>
