@@ -1,6 +1,6 @@
 importScripts('/app/lib/jdataview.js');
 
-var BATCHSIZE = 1;
+var BATCHSIZE = 100;
 
 self.addEventListener('message', function(msgEvent) {
    var loaded = 0;
@@ -8,9 +8,10 @@ self.addEventListener('message', function(msgEvent) {
 
    [].forEach.call(msgEvent.data, function(file) {
       var reader = new FileReaderSync();
-      var mp3Data = new jDataView(reader.readAsArrayBuffer(file));
+      var last128Bytes = reader.readAsArrayBuffer(file.slice(-128));
+      var mp3Data = new jDataView(last128Bytes);
 
-      if (mp3Data.getString(3, mp3Data.byteLength - 128) == 'TAG') {
+      if (mp3Data.getString(3) == 'TAG') {
          metadataBatch.push({
             name: mp3Data.getString(30, mp3Data.tell()),
             artist: mp3Data.getString(30, mp3Data.tell()),

@@ -1,11 +1,11 @@
 <div class="progress progress-striped active"
-ng-show="loadedSongs < totalSongs && totalSongs > 10">
+ng-show="loadedSongs < totalSongs && totalSongs > 100">
    <div class="bar" ng-style="loadBarStyle">
-      <span ng-show="loadProgress() > 15">
+      <span ng-show="loadProgress() > 20">
          {{loadedSongs}} of {{totalSongs}}
       </span>
    </div>
-   <div ng-show="loadProgress() <= 15">
+   <div ng-show="loadProgress() <= 20">
       {{loadedSongs}} of {{totalSongs}}
    </div>
 </div>
