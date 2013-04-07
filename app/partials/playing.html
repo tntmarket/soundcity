@@ -1,3 +1,15 @@
+<div class="progress progress-striped active"
+ng-show="loadedSongs < totalSongs && totalSongs > 10">
+   <div class="bar" ng-style="loadBarStyle">
+      <span ng-show="loadProgress() > 15">
+         {{loadedSongs}} of {{totalSongs}}
+      </span>
+   </div>
+   <div ng-show="loadProgress() <= 15">
+      {{loadedSongs}} of {{totalSongs}}
+   </div>
+</div>
+
 <div ng-show="songs.length">
    <form class="row-fluid form-search">
       <input type="text" class="span12 search-query text-right" 
@@ -33,17 +45,16 @@
    </table>
 </div>
 
-<center>
-<div class="text-center alert alert-info" ng-hide="songs.length">
-   <strong>Click</strong> or <strong>Drag</strong> songs here to listen! 
-   
-   <div>
-      <file-upload ng-model="files" 
-      ng-change="uploadSongs()"></file-upload>
-   </div>
+<center ng-hide="songs.length">
+   <div class="text-center alert alert-info">
+      <strong>Click</strong> or <strong>Drag</strong> songs here to listen! 
 
-   <div ng-repeat="meta in metadata">
-      {{meta.title}} - {{meta.artist}} | {{meta.album}}
+      <div>
+         <file-upload change="handleFileUpload"></file-upload>
+      </div>
+
+      <div ng-repeat="meta in metadata">
+         {{meta.title}} - {{meta.artist}} | {{meta.album}}
+      </div>
    </div>
-</div>
 </center>

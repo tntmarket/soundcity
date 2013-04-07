@@ -8,7 +8,7 @@ Requirements
 
 - play music from local filesystem without uploading to server
 - save metadata of local music to avoid uploading every session
-   - cookies, localStorage, or filesystem API?
+   - cookies, localStorage, localDatabase or filesystem API?
 - sync local songs to server
 - sync server songs to local filesystem
 

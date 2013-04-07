@@ -46,9 +46,7 @@ function MainCtrl($rootScope, $scope) {
             });
          });
       });
-
    };
-
 }
 
 function PlayingCtrl($rootScope, $scope, $filter) {
@@ -60,47 +58,55 @@ function PlayingCtrl($rootScope, $scope, $filter) {
       }
    };
 
-   $scope.isValidMp3 = function(file) {
+   $scope.isMp3 = function(file) {
       var size = file.size || file.fileSize || 4096;
       return (size > 4095) && ($scope.fileExtension(file.name) === 'mp3');
    };
 
-   $scope.getMetadata = function(files) {
-      $.each(files, function(index, file) {
-         var reader = new FileReader();
-
-         reader.onload = function(e) {
-            var responseText = this.result;
-            var dv = new jDataView(responseText);
-
-            if (dv.getString(3, dv.byteLength - 128) == 'TAG') {
-               $scope.$apply(function() {
-                  $scope.songs.push({
-                     name: dv.getString(30, dv.tell()),
-                     artist: dv.getString(30, dv.tell()),
-                     album: dv.getString(30, dv.tell()),
-                     year: dv.getString(4, dv.tell()),
-                     file: file
-                  });
-               });
-            }
-         };
-
-         reader.readAsArrayBuffer(file);
-      });
-   };
-
    $scope.songs = [];
 
-   $scope.uploadSongs = function() {
-      $scope.files = $filter('filter')($scope.files, $scope.isValidMp3);
-      $scope.getMetadata($scope.files);
+   $scope.handleFileUpload = function(files) {
+      var mp3s = $filter('filter')(files, $scope.isMp3);
+      var metadataProcessor = new Worker('/app/js/metadataProcessor.js');
+      $scope.totalSongs = mp3s.length;
+      $scope.loadedSongs = 0;
+      metadataProcessor.onmessage = function(msgEvent) {
+         $scope.$apply(function() {
+            $scope.songs = $scope.songs.concat(msgEvent.data.metadata);
+            if(msgEvent.data.finished) {
+               metadataProcessor.terminate();
+               $scope.resetBar();
+            } else {
+               $scope.loadedSongs = msgEvent.data.loaded;
+               $scope.loadBarStyle.width = $scope.loadProgress() + '%';
+            }
+         });
+      };
+      metadataProcessor.postMessage(mp3s);
+   };
+
+   $scope.resetBar = function() {
+      $scope.loadBarMsg = '';
+      $scope.loadBarStyle = {
+         width: '0%'
+      },
+      $scope.loadedSongs = -1;
+      $scope.totalSongs = -1;
+   };
+   $scope.resetBar();
+   $scope.loadProgress = function() {
+      return (100 * $scope.loadedSongs / $scope.totalSongs); 
    };
 
    $scope.playSong = function(song) {
       $rootScope.SETSONG(song);
       $rootScope.PLAY();
    };
+}
+
+var reader = new FileReader();
+function readFile(file) {
+   reader.readAsArrayBuffer(file);
 }
 
 function SongRowCtrl($scope) {
