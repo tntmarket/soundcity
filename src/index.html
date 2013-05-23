@@ -2,30 +2,30 @@
 <html lang="en" ng-app="soundCity">
 <head>
    <meta charset="utf-8">
-   <title>Sound City</title>
+   <title>Crappy Music App</title>
    <link rel="stylesheet" href="lib/jplayer/snappy/css/style.css">
    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
-   <link rel="stylesheet" href="css/style.css">
+   <link rel="stylesheet" href="style.css">
    <script src="lib/jquery.js"></script>
    <script src="lib/bootstrap/js/bootstrap.js"></script>
    <script src="lib/angular/angular.js"></script>
    <script src="lib/jplayer/jplayer.js"></script>
+   <script src="lib/WorkerConsole.js"></script>
 
-   <script src="js/app.js"></script>
-   <script src="js/controllers.js"></script>
+   <script src="client.js"></script>
+   <script src="controllers.js"></script>
 </head>
 
 <body ng-controller="MainCtrl">
 
 <div class="navbar navbar-fixed-top" 
-     ng-include="'partials/navigation.html'" ></div>
+     ng-include="'Navigation/view.html'" ></div>
 
 <div id="main" ng-view></div>
 
 <div id="controls" class="navbar navbar-fixed-bottom"
-     ng-include src="'partials/controls.html'"
-     onload="InitJPlayer();" >
-</div>
+     ng-include src="'Controls/view.html'"
+     onload="InitJPlayer();" ></div>
 
 </body>
 

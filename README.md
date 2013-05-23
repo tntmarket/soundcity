@@ -8,7 +8,7 @@ Requirements
 
 - play music from local filesystem without uploading to server
 - save metadata of local music to avoid uploading every session
-   - cookies, localStorage, localDatabase or filesystem API?
+   - currently impossible?!
 - sync local songs to server
 - sync server songs to local filesystem
 
@@ -32,9 +32,9 @@ How to Run
 ----------
 in root directory:
     
-    ./scripts/webserver.js
+    node server.js
 
-Then navigate to http://localhost:8000/app/index.html
+Then navigate to http://localhost:8080/
 
 How to Test 
 -----------

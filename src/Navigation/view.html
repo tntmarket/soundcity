@@ -1,16 +1,13 @@
 <div class="navbar-inner">
    <ul class="nav">
-      <li><a href="#/addsongs">
+      <li><a href="#/AddSongs">
          <i class="icon-plus"></i>
       </a></li>
-      <li    ><a href="#/playing">
+      <li ng-show="SONGS.length"><a href="#/Playlist">
          <i class="icon-play"></i>
-         Playlist of Doom 
-         <span ng-show="SONGS.length">
-            ({{SONGS.length}})
-         </span>
+         Play Queue ({{SONGS.length}})
       </a></li>
-      <li><a href="#/mymusic">
+      <li><a href="#/MyMusic">
          <i class="icon-music"></i>
          My Music 
       </a></li>

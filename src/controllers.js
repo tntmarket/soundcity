@@ -32,7 +32,7 @@ function MainCtrl($rootScope, $scope) {
       $(document).ready(function(){
          $scope.PLAYER = $("#jplayer").jPlayer({
             volume: '0.5',
-            swfPath: '/app/lib/jplayer/jplayer.swf',
+            swfPath: 'lib/jplayer/jplayer.swf',
             cssSelectorAncestor: '.player-container',
             supplied: 'mp3',
             currentTime: '.jp-current-time'
@@ -52,6 +52,14 @@ function MainCtrl($rootScope, $scope) {
 }
 
 function AddSongsCtrl($rootScope, $scope, $filter, $location) {
+
+   if(!$rootScope.AddSongs) {
+      $rootScope.AddSongs = {
+         loadedSongs: -1,
+         totalSongs: -1
+      };
+   }
+
    $scope.fileExtension = function(filename) {
       if( filename.indexOf('.') > -1 ) {
          return filename.split('.').pop();
@@ -68,56 +76,53 @@ function AddSongsCtrl($rootScope, $scope, $filter, $location) {
 
    $scope.handleFileUpload = function(files) {
       var mp3s = $filter('filter')(files, $scope.isMp3);
-      var metadataProcessor = new Worker('/app/js/metadataProcessor.js');
-      $scope.totalSongs = mp3s.length;
-      $scope.loadedSongs = 0;
+      var metadataProcessor = new Worker('/AddSongs/metadataProcessor.js');
+      $rootScope.AddSongs = {
+         loadedSongs: 0,
+         totalSongs: mp3s.length
+      };
       metadataProcessor.onmessage = function(msgEvent) {
          $scope.$apply(function() {
             $rootScope.SONGS = $rootScope.SONGS.concat(msgEvent.data.metadata);
             if(msgEvent.data.finished) {
                metadataProcessor.terminate();
-               $scope.resetBar();
-               $location.path('/playing');
+               $scope.reset();
             } else {
-               $scope.loadedSongs = msgEvent.data.loaded;
-               $scope.loadBarStyle.width = $scope.loadProgress() + '%';
+               $rootScope.AddSongs.loadedSongs = msgEvent.data.loaded;
             }
          });
       };
       metadataProcessor.postMessage(mp3s);
    };
 
-   $scope.resetBar = function() {
-      $scope.loadBarStyle = {
-         width: '0%'
-      },
-      $scope.loadedSongs = -1;
-      $scope.totalSongs = -1;
+   $scope.reset = function() {
+      $rootScope.AddSongs = {
+         loadedSongs: -1,
+         totalSongs: -1
+      };
+   };
+
+   $scope.loadBarStyle = function() {
+      return {
+         width: $scope.loadProgress() + '%'
+      };
    };
 
    $scope.busy = function() {
-      return $scope.loadedSongs < $scope.totalSongs;
+      return $rootScope.AddSongs.loadedSongs < $rootScope.AddSongs.totalSongs;
    };
 
-   if(!$scope.loadedSongs) {
-      $scope.resetBar();
-   }
-
    $scope.loadProgress = function() {
-      return (100 * $scope.loadedSongs / $scope.totalSongs); 
+      return (100 * $rootScope.AddSongs.loadedSongs / 
+              $rootScope.AddSongs.totalSongs); 
    };
 }
 
-function PlayingCtrl($rootScope, $scope, $location) {
+function PlaylistCtrl($rootScope, $scope, $location) {
    $scope.playSong = function(song) {
       $rootScope.SETSONG(song);
       $rootScope.PLAY();
    };
-}
-
-var reader = new FileReader();
-function readFile(file) {
-   reader.readAsArrayBuffer(file);
 }
 
 function SongCtrl($scope, $routeParams) {

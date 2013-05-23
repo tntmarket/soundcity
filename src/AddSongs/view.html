@@ -1,12 +1,12 @@
 <div class="progress progress-striped active"
-ng-show="busy() && totalSongs > 100">
-   <div class="bar" ng-style="loadBarStyle">
+ng-show="busy()">
+   <div class="bar" ng-style="loadBarStyle()">
       <span ng-show="loadProgress() > 20">
-         {{loadedSongs}} of {{totalSongs}}
+         {{AddSongs.loadedSongs}} of {{AddSongs.totalSongs}}
       </span>
    </div>
    <div ng-show="loadProgress() <= 20">
-      {{loadedSongs}} of {{totalSongs}}
+      {{AddSongs.loadedSongs}} of {{AddSongs.totalSongs}}
    </div>
 </div>
 

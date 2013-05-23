@@ -1,0 +1,37 @@
+<form class="row-fluid form-search">
+   <input type="text" class="span12 search-query text-right" 
+   placeholder="Filter songs..." ng-model="query">
+   </input>
+</form>
+
+<table class="table table-bordered table-hover">
+   <thead>
+      <tr>
+         <th>Name</th>
+         <th>Artist</th>
+         <th>Album</th>
+         <th></th>
+      </tr>
+   </thead>
+   <tbody>
+   <tr ng-repeat="song in SONGS | filter:query" 
+       ng-dblclick="playSong(song)">
+
+      <td>
+         <a href="#/Song/{{song.name}}">{{song.name}}</a>
+      </td>
+      <td>
+         <a href="#/Artist/{{song.artist}}">{{song.artist}}</a>
+      </td>
+      <td>
+         <a href="#/Album/{{song.album}}">{{song.album}}</a>
+      </td>
+      <td class="play-column">
+         <button class="btn btn-mini">
+            <i class="icon-chevron-down"></i>
+         </button>
+      </td>
+
+   </tr>
+   </tbody>
+</table>
